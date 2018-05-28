@@ -1,34 +1,24 @@
 {
-  "players": [
+  "items": [
     {
       "id": "1",
-      "name": "Sally",
-      "level": 3
+      "checked": false,
+      "content": "Lage todo-app"
     },
     {
       "id": "2",
-      "name": "Lance",
-      "level": 1
+      "checked": true,
+      "content": "Dra til Brilleland"
     },
     {
       "id": "3",
-      "name": "Aki",
-      "level": 3
+      "checked": true,
+      "content": "Ringe Get"
     },
     {
       "id": "4",
-      "name": "Maria",
-      "level": 4
-    },
-    {
-      "id": "5",
-      "name": "Julian",
-      "level": 1
-    },
-    {
-      "id": "6",
-      "name": "Jaime",
-      "level": 1
+      "checked": false,
+      "content": "Klippe meg"
     }
   ]
 }

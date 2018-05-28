@@ -4,67 +4,67 @@ import Http
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, required)
 import Json.Encode as Encode
+import Models exposing (Item, ItemId)
 import Msgs exposing (Msg)
-import Models exposing (PlayerId, Player)
 import RemoteData
 
 
-fetchPlayersUrl : String
-fetchPlayersUrl =
-    "http://localhost:4000/players"
+fetchItemsUrl : String
+fetchItemsUrl =
+    "http://localhost:4000/items"
 
 
-fetchPlayers : Cmd Msg
-fetchPlayers =
-    Http.get fetchPlayersUrl playersDecoder
+fetchItems : Cmd Msg
+fetchItems =
+    Http.get fetchItemsUrl itemsDecoder
         |> RemoteData.sendRequest
-        |> Cmd.map Msgs.OnFetchPlayers
+        |> Cmd.map Msgs.OnFetchItems
 
 
-playersDecoder : Decode.Decoder (List Player)
-playersDecoder =
-    Decode.list playerDecoder
+itemsDecoder : Decode.Decoder (List Item)
+itemsDecoder =
+    Decode.list itemDecoder
 
 
-playerDecoder : Decode.Decoder Player
-playerDecoder =
-    decode Player
+itemDecoder : Decode.Decoder Item
+itemDecoder =
+    decode Item
         |> required "id" Decode.string
-        |> required "name" Decode.string
-        |> required "level" Decode.int
+        |> required "checked" Decode.bool
+        |> required "content" Decode.string
 
 
-savePlayerUrl : PlayerId -> String
-savePlayerUrl playerId =
-    "http://localhost:4000/players/" ++ playerId
+saveItemUrl : ItemId -> String
+saveItemUrl itemId =
+    "http://localhost:4000/items/" ++ itemId
 
 
-savePlayerCmd : Player -> Cmd Msg
-savePlayerCmd player =
-    savePlayerRequest player
-        |> Http.send Msgs.OnPlayerSave
+checkItemCmd : Item -> Cmd Msg
+checkItemCmd item =
+    saveItemRequest item
+        |> Http.send Msgs.OnCheckItem
 
 
-savePlayerRequest : Player -> Http.Request Player
-savePlayerRequest player =
+saveItemRequest : Item -> Http.Request Item
+saveItemRequest item =
     Http.request
-        { body = playerEncoder player |> Http.jsonBody
-        , expect = Http.expectJson playerDecoder
+        { body = itemEncoder item |> Http.jsonBody
+        , expect = Http.expectJson itemDecoder
         , headers = []
         , method = "PATCH"
         , timeout = Nothing
-        , url = savePlayerUrl player.id
+        , url = saveItemUrl item.id
         , withCredentials = False
         }
 
 
-playerEncoder : Player -> Encode.Value
-playerEncoder player =
+itemEncoder : Item -> Encode.Value
+itemEncoder item =
     let
         attributes =
-            [ ( "id", Encode.string player.id )
-            , ( "name", Encode.string player.name )
-            , ( "level", Encode.int player.level )
+            [ ( "id", Encode.string item.id )
+            , ( "checked", Encode.bool item.checked )
+            , ( "content", Encode.string item.content )
             ]
     in
         Encode.object attributes

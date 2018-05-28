@@ -1,13 +1,20 @@
-module Msgs exposing (..)
+module Msgs exposing (Msg(..))
 
 import Http
-import Models exposing (Player)
+import Models exposing (Item, ItemId)
 import Navigation exposing (Location)
 import RemoteData exposing (WebData)
 
 
 type Msg
-    = OnFetchPlayers (WebData (List Player))
+    = OnFetchItems (WebData (List Item))
     | OnLocationChange Location
-    | ChangeLevel Player Int
-    | OnPlayerSave (Result Http.Error Player)
+    | CheckItem Item Bool
+    | OnCheckItem (Result Http.Error Item)
+
+
+
+-- | DeleteItem ItemId
+-- | OnDeleteItem (Result Http.Error Item)
+-- | SubmitContent String
+-- | OnSubmitContent (Result Http.Error Item)

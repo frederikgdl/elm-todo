@@ -1,33 +1,33 @@
-module Models exposing (..)
+module Models exposing (Model, initialModel, ItemId, Item, Route(..))
 
 import RemoteData exposing (WebData)
 
 
 type alias Model =
-    { players : WebData (List Player)
+    { items : WebData (List Item)
     , route : Route
     }
 
 
 initialModel : Route -> Model
 initialModel route =
-    { players = RemoteData.Loading
+    { items = RemoteData.Loading
     , route = route
     }
 
 
-type alias Player =
-    { id : PlayerId
-    , name : String
-    , level : Int
-    }
-
-
-type alias PlayerId =
+type alias ItemId =
     String
 
 
+type alias Item =
+    { id : ItemId
+    , checked : Bool
+    , content : String
+    }
+
+
 type Route
-    = PlayersRoute
-    | PlayerRoute PlayerId
+    = ItemsRoute
+    | ItemRoute ItemId
     | NotFoundRoute

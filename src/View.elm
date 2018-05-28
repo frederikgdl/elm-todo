@@ -1,51 +1,65 @@
 module View exposing (..)
 
-import Html exposing (Html, div, text)
-import Models exposing (Model, PlayerId)
+import Html exposing (Html, div, text, nav)
+import Html.Attributes exposing (class)
+import Models exposing (Model, ItemId)
 import Msgs exposing (Msg)
-import Players.Edit
-import Players.List
+import Items.Edit
+import Items.List
 import RemoteData
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ page model ]
+        [ header
+        , div [ class "container" ]
+            [ page model ]
+        ]
+
+
+header : Html Msg
+header =
+    nav [ class "navbar is-dark" ]
+        [ div [ class "navbar-brand" ]
+            [ div [ class "navbar-item" ]
+                [ text "Elm Todo" ]
+            ]
+        ]
 
 
 page : Model -> Html Msg
 page model =
     case model.route of
-        Models.PlayersRoute ->
-            Players.List.view model.players
+        Models.ItemsRoute ->
+            Items.List.view model.items
 
-        Models.PlayerRoute id ->
-            playerEditPage model id
+        Models.ItemRoute id ->
+            itemEditPage model id
 
         Models.NotFoundRoute ->
             notFoundView
 
 
-playerEditPage : Model -> PlayerId -> Html Msg
-playerEditPage model playerId =
-    case model.players of
+itemEditPage : Model -> ItemId -> Html Msg
+itemEditPage model itemId =
+    case model.items of
         RemoteData.NotAsked ->
             text ""
 
         RemoteData.Loading ->
             text "Loading..."
 
-        RemoteData.Success players ->
+        RemoteData.Success items ->
             let
-                maybePlayer =
-                    players
-                        |> List.filter (\player -> player.id == playerId)
+                maybeItem =
+                    items
+                        |> List.filter (\item -> item.id == itemId)
                         |> List.head
             in
-                case maybePlayer of
-                    Just player ->
-                        Players.Edit.view player
+                case maybeItem of
+                    Just item ->
+                        Items.Edit.view item
 
                     Nothing ->
                         notFoundView

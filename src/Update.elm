@@ -1,7 +1,7 @@
 module Update exposing (..)
 
-import Commands exposing (savePlayerCmd)
-import Models exposing (Model, Player)
+import Commands exposing (checkItemCmd)
+import Models exposing (Model, Item)
 import Msgs exposing (Msg)
 import RemoteData
 import Routing exposing (parseLocation)
@@ -10,8 +10,8 @@ import Routing exposing (parseLocation)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Msgs.OnFetchPlayers response ->
-            ( { model | players = response }, Cmd.none )
+        Msgs.OnFetchItems response ->
+            ( { model | items = response }, Cmd.none )
 
         Msgs.OnLocationChange location ->
             let
@@ -20,33 +20,35 @@ update msg model =
             in
                 ( { model | route = newRoute }, Cmd.none )
 
-        Msgs.ChangeLevel player howMuch ->
+        Msgs.CheckItem item _ ->
             let
-                updatedPlayer =
-                    { player | level = player.level + howMuch }
+                updatedItem =
+                    { item | checked = not item.checked }
             in
-                ( model, savePlayerCmd updatedPlayer )
+                ( model, checkItemCmd updatedItem )
 
-        Msgs.OnPlayerSave (Ok player) ->
-            ( updatePlayer model player, Cmd.none )
+        Msgs.OnCheckItem response ->
+            case response of
+                Ok item ->
+                    ( updateItem model item, Cmd.none )
 
-        Msgs.OnPlayerSave (Err error) ->
-            ( model, Cmd.none )
+                Err error ->
+                    ( model, Cmd.none )
 
 
-updatePlayer : Model -> Player -> Model
-updatePlayer model updatedPlayer =
+updateItem : Model -> Item -> Model
+updateItem model updatedItem =
     let
-        pick currentPlayer =
-            if updatedPlayer.id == currentPlayer.id then
-                updatedPlayer
+        pick currentItem =
+            if updatedItem.id == currentItem.id then
+                updatedItem
             else
-                currentPlayer
+                currentItem
 
-        updatePlayerList players =
-            List.map pick players
+        updateItemList items =
+            List.map pick items
 
-        updatedPlayers =
-            RemoteData.map updatePlayerList model.players
+        updatedItems =
+            RemoteData.map updateItemList model.items
     in
-        { model | players = updatedPlayers }
+        { model | items = updatedItems }
