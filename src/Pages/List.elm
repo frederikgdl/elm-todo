@@ -1,4 +1,4 @@
-module Items.List exposing (..)
+module Pages.List exposing (..)
 
 import Html exposing (Html, div, text, input, textarea, a, label)
 import Html.Attributes exposing (class, type_, readonly, name, checked)

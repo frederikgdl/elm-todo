@@ -4,8 +4,8 @@ import Html exposing (Html, div, text, nav)
 import Html.Attributes exposing (class)
 import Models exposing (Model, ItemId)
 import Msgs exposing (Msg)
-import Items.Edit
-import Items.List
+import Pages.Edit
+import Pages.List
 import RemoteData
 
 
@@ -32,7 +32,7 @@ page : Model -> Html Msg
 page model =
     case model.route of
         Models.ItemsRoute ->
-            Items.List.view model.items
+            Pages.List.view model.items
 
         Models.ItemRoute id ->
             itemEditPage model id
@@ -59,7 +59,7 @@ itemEditPage model itemId =
             in
                 case maybeItem of
                     Just item ->
-                        Items.Edit.view item
+                        Pages.Edit.view item
 
                     Nothing ->
                         notFoundView

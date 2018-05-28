@@ -1,4 +1,4 @@
-module Items.Edit exposing (..)
+module Pages.Edit exposing (..)
 
 import Html exposing (Html, div)
 import Models exposing (Item)
