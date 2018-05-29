@@ -8,5 +8,5 @@ Then:
 
 ```bash
 yarn install
-yarn start-with-server
+yarn start
 ```

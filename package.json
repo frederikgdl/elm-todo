@@ -5,9 +5,9 @@
   "author": "frederikgdl",
   "license": "MIT",
   "scripts": {
-    "start": "elm-app start",
-    "sws": "npm run start-with-server",
-    "start-with-server": "concurrently --kill-others \"npm start\" \"npm run server\"",
+    "start": "npm run start-with-server",
+    "start-elm": "elm-app start",
+    "start-with-server": "concurrently --kill-others \"npm run start-elm\" \"npm run server\"",
     "server": "json-server --watch db.json --port 4000",
     "build": "elm-app build",
     "test": "elm-app test",
