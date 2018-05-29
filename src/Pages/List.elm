@@ -1,6 +1,6 @@
 module Pages.List exposing (..)
 
-import Html exposing (Html, div, text, input, textarea, a, label)
+import Html exposing (Html, div, text, input, textarea, a, label, p)
 import Html.Attributes exposing (class, type_, readonly, name, checked)
 import Html.Events exposing (onCheck)
 import Models exposing (Item)
@@ -11,43 +11,43 @@ import RemoteData exposing (WebData)
 view : WebData (List Item) -> Html Msg
 view response =
     div [ class "box" ]
-        [ control
+        [ controls
         , maybeList response
         ]
 
 
-control : Html Msg
-control =
+controls : Html Msg
+controls =
     div [ class "level" ]
         [ div [ class "level-left" ]
             [ newButton ]
-        , div [ class "level-item" ]
+        , div [ class "level-right" ]
             [ filter ]
-        ]
-
-
-filter : Html Msg
-filter =
-    div [ class "control" ]
-        [ label [ class "radio" ]
-            [ input [ type_ "radio", name "filter" ] []
-            , text "Not completed"
-            ]
-        , label [ class "radio" ]
-            [ input [ type_ "radio", name "filter" ] []
-            , text "Completed"
-            ]
-        , label [ class "radio" ]
-            [ input [ type_ "radio", name "filter" ] []
-            , text "All"
-            ]
         ]
 
 
 newButton : Html Msg
 newButton =
     a [ class "button is-primary is-medium" ]
-        [ text "+" ]
+        [ text "+ Add todo" ]
+
+
+filter : Html Msg
+filter =
+    div [ class "field has-addons" ]
+        [ p [ class "control" ]
+            [ a [ class "button" ]
+                [ text "Not completed" ]
+            ]
+        , p [ class "control" ]
+            [ a [ class "button" ]
+                [ text "Completed" ]
+            ]
+        , p [ class "control" ]
+            [ a [ class "button" ]
+                [ text "All" ]
+            ]
+        ]
 
 
 maybeList : WebData (List Item) -> Html Msg
@@ -75,17 +75,19 @@ list items =
 itemRow : Item -> Html Msg
 itemRow item =
     div [ class "box level" ]
-        [ div [ class "level-right" ]
-            [ checkbox item ]
-        , div [ class "level-item" ]
-            [ content item ]
-        , div [ class "level-left" ] [ editButton item ]
+        [ checkbox item
+        , content item
+        , editButton item
         ]
 
 
 checkbox : Item -> Html Msg
 checkbox item =
-    input [ type_ "checkbox", checked item.checked, onCheck (CheckItem item) ]
+    input
+        [ type_ "checkbox"
+        , checked item.checked
+        , onCheck (CheckItem item)
+        ]
         []
 
 
