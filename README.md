@@ -1,6 +1,10 @@
 # Elm Todo
 
-To run:
+## To run:
+
+Install Elm: https://guide.elm-lang.org/install.html
+
+Then:
 
 ```bash
 yarn install
