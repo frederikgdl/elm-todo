@@ -1,7 +1,7 @@
 module Pages.List exposing (..)
 
 import Html exposing (Html, div, text, input, textarea, a, label, p)
-import Html.Attributes exposing (class, type_, readonly, name, checked)
+import Html.Attributes exposing (class, classList, type_, readonly, name, checked, id)
 import Html.Events exposing (onCheck)
 import Models exposing (Item)
 import Msgs exposing (Msg(..))
@@ -77,7 +77,7 @@ itemRow item =
     div [ class "box level" ]
         [ checkbox item
         , content item
-        , controlButtons item
+        , rowButtons item
         ]
 
 
@@ -85,6 +85,7 @@ checkbox : Item -> Html Msg
 checkbox item =
     input
         [ type_ "checkbox"
+        , class "todo-checkbox"
         , checked item.checked
         , onCheck (CheckItem item)
         ]
@@ -93,15 +94,17 @@ checkbox item =
 
 content : Item -> Html Msg
 content item =
-    div []
+    div [ classList [ ( "has-text-grey-light line-through", item.checked ) ] ]
         [ text item.content ]
 
 
-controlButtons : Item -> Html Msg
-controlButtons item =
-    div [ class "level-right" ]
-        [ editButton item
-        , deleteButton item
+rowButtons : Item -> Html Msg
+rowButtons item =
+    div [ class "field is-grouped" ]
+        [ p [ class "control" ]
+            [ editButton item ]
+        , p [ class "control" ]
+            [ deleteButton item ]
         ]
 
 
