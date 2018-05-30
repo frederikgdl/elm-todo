@@ -77,7 +77,7 @@ itemRow item =
     div [ class "box level" ]
         [ checkbox item
         , content item
-        , editButton item
+        , controlButtons item
         ]
 
 
@@ -97,7 +97,21 @@ content item =
         [ text item.content ]
 
 
+controlButtons : Item -> Html Msg
+controlButtons item =
+    div [ class "level-right" ]
+        [ editButton item
+        , deleteButton item
+        ]
+
+
 editButton : Item -> Html Msg
 editButton item =
     a [ class "button is-primary is-medium" ]
         [ text "Edit" ]
+
+
+deleteButton : Item -> Html Msg
+deleteButton item =
+    a [ class "button is-danger is-medium" ]
+        [ text "Delete" ]
