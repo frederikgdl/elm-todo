@@ -113,6 +113,7 @@ checkbox item =
     input
         [ type_ "checkbox"
         , class "todo-checkbox"
+        , classList [ ( "is-checked", item.checked ) ]
         , checked item.checked
         , onCheck (CheckItem item)
         ]
