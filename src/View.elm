@@ -31,7 +31,7 @@ page : Model -> Html Msg
 page model =
     case model.route of
         Models.ListRoute ->
-            Pages.List.view model.items
+            Pages.List.view model.items model.filter
 
         Models.NewItemRoute ->
             Pages.NewItem.view

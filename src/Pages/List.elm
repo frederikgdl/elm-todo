@@ -9,11 +9,11 @@ import Routing exposing (newItemPath)
 import RemoteData exposing (WebData)
 
 
-view : WebData (List Item) -> Html Msg
-view response =
+view : WebData (List Item) -> Filter -> Html Msg
+view response itemFilter =
     div [ class "box is-shadowless" ]
         [ controls
-        , maybeList response
+        , maybeList response itemFilter
         ]
 
 
@@ -63,8 +63,8 @@ filter =
 --
 
 
-maybeList : WebData (List Item) -> Html Msg
-maybeList response =
+maybeList : WebData (List Item) -> Filter -> Html Msg
+maybeList response itemFilter =
     case response of
         RemoteData.NotAsked ->
             text ""
@@ -73,10 +73,24 @@ maybeList response =
             text "Loading..."
 
         RemoteData.Success items ->
-            list items
+            filterItems items itemFilter
+                |> list
 
         RemoteData.Failure error ->
             text (toString error)
+
+
+filterItems : List Item -> Filter -> List Item
+filterItems items itemFilter =
+    case itemFilter of
+        Checked ->
+            List.filter (\i -> i.checked == True) items
+
+        NotChecked ->
+            List.filter (\i -> i.checked == False) items
+
+        All ->
+            items
 
 
 list : List Item -> Html Msg

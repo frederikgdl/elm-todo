@@ -1,6 +1,6 @@
 module Update exposing (update)
 
-import Commands exposing (checkItemCmd, deleteItemCmd, fetchItemsCmd, submitItemCmd, gotoLocationCmd, filterItemsCmd)
+import Commands exposing (checkItemCmd, deleteItemCmd, fetchItemsCmd, submitItemCmd, gotoLocationCmd)
 import Models exposing (Model, Item, Filter(..))
 import Msgs exposing (Msg)
 import RemoteData
@@ -68,16 +68,12 @@ update msg model =
                 Err error ->
                     ( model, Cmd.none )
 
-        Msgs.FilterItems filter ->
-            case filter of
-                Checked ->
-                    ( model, filterItemsCmd "true" )
-
-                NotChecked ->
-                    ( model, filterItemsCmd "false" )
-
-                All ->
-                    ( model, fetchItemsCmd )
+        Msgs.FilterItems newFilter ->
+            let
+                updatedModel =
+                    { model | filter = newFilter }
+            in
+                ( updatedModel, Cmd.none )
 
 
 updateItem : Model -> Item -> Model
