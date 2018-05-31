@@ -3,7 +3,7 @@ module Pages.List exposing (view)
 import Html exposing (Html, div, text, input, a, p)
 import Html.Attributes exposing (class, classList, type_, checked, href)
 import Html.Events exposing (onCheck, onClick)
-import Models exposing (Item)
+import Models exposing (Item, Filter(..))
 import Msgs exposing (Msg(..))
 import Routing exposing (newItemPath)
 import RemoteData exposing (WebData)
@@ -43,15 +43,15 @@ filter : Html Msg
 filter =
     div [ class "field has-addons" ]
         [ p [ class "control" ]
-            [ a [ class "button" ]
+            [ a [ class "button", onClick (FilterItems NotChecked) ]
                 [ text "Not completed" ]
             ]
         , p [ class "control" ]
-            [ a [ class "button" ]
+            [ a [ class "button", onClick (FilterItems Checked) ]
                 [ text "Completed" ]
             ]
         , p [ class "control" ]
-            [ a [ class "button" ]
+            [ a [ class "button", onClick (FilterItems All) ]
                 [ text "All" ]
             ]
         ]

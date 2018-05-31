@@ -1,4 +1,4 @@
-module Commands exposing (gotoLocationCmd, fetchItemsCmd, checkItemCmd, submitItemCmd, deleteItemCmd)
+module Commands exposing (gotoLocationCmd, fetchItemsCmd, checkItemCmd, submitItemCmd, deleteItemCmd, filterItemsCmd)
 
 import Http
 import Json.Decode as Decode
@@ -26,6 +26,13 @@ gotoLocationCmd location =
 --
 
 
+fetch : String -> Cmd Msg
+fetch url =
+    Http.get url itemsDecoder
+        |> RemoteData.sendRequest
+        |> Cmd.map Msgs.OnFetchItems
+
+
 fetchItemsUrl : String
 fetchItemsUrl =
     "http://localhost:4000/items"
@@ -33,9 +40,7 @@ fetchItemsUrl =
 
 fetchItemsCmd : Cmd Msg
 fetchItemsCmd =
-    Http.get fetchItemsUrl itemsDecoder
-        |> RemoteData.sendRequest
-        |> Cmd.map Msgs.OnFetchItems
+    fetch fetchItemsUrl
 
 
 itemsDecoder : Decode.Decoder (List Item)
@@ -54,6 +59,20 @@ itemDecoder =
 itemUrl : ItemId -> String
 itemUrl itemId =
     "http://localhost:4000/items/" ++ itemId
+
+
+
+--
+-- Filter items
+--
+
+
+filterItemsCmd : String -> Cmd Msg
+filterItemsCmd filterValue =
+    fetchItemsUrl
+        ++ "?checked="
+        ++ filterValue
+        |> fetch
 
 
 

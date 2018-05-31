@@ -1,7 +1,7 @@
 module Msgs exposing (Msg(..))
 
 import Http
-import Models exposing (Item, ItemId)
+import Models exposing (Item, ItemId, Filter)
 import Navigation exposing (Location)
 import RemoteData exposing (WebData)
 
@@ -16,3 +16,4 @@ type Msg
     | UpdateNewContent String
     | SubmitContent
     | OnSubmitContent (Result Http.Error Item)
+    | FilterItems Filter

@@ -1,4 +1,4 @@
-module Models exposing (Model, initialModel, ItemId, Item, Route(..))
+module Models exposing (Model, initialModel, ItemId, Item, Route(..), Filter(..))
 
 import RemoteData exposing (WebData)
 
@@ -7,6 +7,7 @@ type alias Model =
     { items : WebData (List Item)
     , route : Route
     , newContent : String
+    , filter : Filter
     }
 
 
@@ -15,6 +16,7 @@ initialModel route =
     { items = RemoteData.Loading
     , route = route
     , newContent = ""
+    , filter = All
     }
 
 
@@ -33,3 +35,9 @@ type Route
     = ListRoute
     | NewItemRoute
     | NotFoundRoute
+
+
+type Filter
+    = Checked
+    | NotChecked
+    | All

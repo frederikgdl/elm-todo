@@ -1,7 +1,7 @@
 module Update exposing (update)
 
-import Commands exposing (checkItemCmd, deleteItemCmd, fetchItemsCmd, submitItemCmd, gotoLocationCmd)
-import Models exposing (Model, Item)
+import Commands exposing (checkItemCmd, deleteItemCmd, fetchItemsCmd, submitItemCmd, gotoLocationCmd, filterItemsCmd)
+import Models exposing (Model, Item, Filter(..))
 import Msgs exposing (Msg)
 import RemoteData
 import Routing exposing (parseLocation)
@@ -67,6 +67,17 @@ update msg model =
 
                 Err error ->
                     ( model, Cmd.none )
+
+        Msgs.FilterItems filter ->
+            case filter of
+                Checked ->
+                    ( model, filterItemsCmd "true" )
+
+                NotChecked ->
+                    ( model, filterItemsCmd "false" )
+
+                All ->
+                    ( model, fetchItemsCmd )
 
 
 updateItem : Model -> Item -> Model
