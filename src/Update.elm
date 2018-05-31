@@ -1,6 +1,6 @@
 module Update exposing (..)
 
-import Commands exposing (checkItemCmd)
+import Commands exposing (checkItemCmd, deleteItemCmd, fetchItems)
 import Models exposing (Model, Item)
 import Msgs exposing (Msg)
 import RemoteData
@@ -31,6 +31,17 @@ update msg model =
             case response of
                 Ok item ->
                     ( updateItem model item, Cmd.none )
+
+                Err error ->
+                    ( model, Cmd.none )
+
+        Msgs.DeleteItem itemId ->
+            ( model, deleteItemCmd itemId )
+
+        Msgs.OnDeleteItem response ->
+            case response of
+                Ok _ ->
+                    ( model, fetchItems )
 
                 Err error ->
                     ( model, Cmd.none )

@@ -28,6 +28,6 @@ type alias Item =
 
 
 type Route
-    = ItemsRoute
-    | ItemRoute ItemId
+    = ListRoute
+    | EditRoute ItemId
     | NotFoundRoute

@@ -11,10 +11,10 @@ type Msg
     | OnLocationChange Location
     | CheckItem Item Bool
     | OnCheckItem (Result Http.Error Item)
+    | DeleteItem ItemId
+    | OnDeleteItem (Result Http.Error String)
 
 
 
--- | DeleteItem ItemId
--- | OnDeleteItem (Result Http.Error Item)
 -- | SubmitContent String
 -- | OnSubmitContent (Result Http.Error Item)

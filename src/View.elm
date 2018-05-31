@@ -31,11 +31,11 @@ header =
 page : Model -> Html Msg
 page model =
     case model.route of
-        Models.ItemsRoute ->
+        Models.ListRoute ->
             Pages.List.view model.items
 
-        Models.ItemRoute id ->
-            itemEditPage model id
+        Models.EditRoute itemId ->
+            itemEditPage model itemId
 
         Models.NotFoundRoute ->
             notFoundView

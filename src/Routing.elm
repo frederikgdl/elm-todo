@@ -8,9 +8,8 @@ import UrlParser exposing (Parser, s, map, top, (</>), parseHash, oneOf, string)
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
-        [ map ItemsRoute top
-        , map ItemRoute (s "players" </> string)
-        , map ItemsRoute (s "players")
+        [ map ListRoute top
+        , map EditRoute (s "todo" </> string)
         ]
 
 
@@ -26,9 +25,9 @@ parseLocation location =
 
 itemsPath : String
 itemsPath =
-    "#items"
+    "#todo"
 
 
 itemPath : ItemId -> String
 itemPath id =
-    "#items/" ++ id
+    "#todo/" ++ id

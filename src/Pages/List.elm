@@ -2,7 +2,7 @@ module Pages.List exposing (..)
 
 import Html exposing (Html, div, text, input, textarea, a, label, p)
 import Html.Attributes exposing (class, classList, type_, readonly, name, checked, id)
-import Html.Events exposing (onCheck)
+import Html.Events exposing (onCheck, onClick)
 import Models exposing (Item)
 import Msgs exposing (Msg(..))
 import RemoteData exposing (WebData)
@@ -116,5 +116,5 @@ editButton item =
 
 deleteButton : Item -> Html Msg
 deleteButton item =
-    a [ class "button is-danger is-medium" ]
+    a [ class "button is-danger is-medium", onClick (DeleteItem item.id) ]
         [ text "Delete" ]

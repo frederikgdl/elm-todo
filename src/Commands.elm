@@ -34,8 +34,8 @@ itemDecoder =
         |> required "content" Decode.string
 
 
-saveItemUrl : ItemId -> String
-saveItemUrl itemId =
+itemUrl : ItemId -> String
+itemUrl itemId =
     "http://localhost:4000/items/" ++ itemId
 
 
@@ -48,12 +48,12 @@ checkItemCmd item =
 saveItemRequest : Item -> Http.Request Item
 saveItemRequest item =
     Http.request
-        { body = itemEncoder item |> Http.jsonBody
-        , expect = Http.expectJson itemDecoder
+        { method = "PATCH"
         , headers = []
-        , method = "PATCH"
+        , url = itemUrl item.id
+        , body = itemEncoder item |> Http.jsonBody
+        , expect = Http.expectJson itemDecoder
         , timeout = Nothing
-        , url = saveItemUrl item.id
         , withCredentials = False
         }
 
@@ -68,3 +68,22 @@ itemEncoder item =
             ]
     in
         Encode.object attributes
+
+
+deleteItemCmd : ItemId -> Cmd Msg
+deleteItemCmd itemId =
+    deleteItemRequest itemId
+        |> Http.send Msgs.OnDeleteItem
+
+
+deleteItemRequest : ItemId -> Http.Request String
+deleteItemRequest itemId =
+    Http.request
+        { method = "DELETE"
+        , headers = []
+        , url = itemUrl itemId
+        , body = Http.emptyBody
+        , expect = Http.expectString
+        , timeout = Nothing
+        , withCredentials = False
+        }
