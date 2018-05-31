@@ -1,6 +1,6 @@
-module Update exposing (..)
+module Update exposing (update)
 
-import Commands exposing (checkItemCmd, deleteItemCmd, fetchItems)
+import Commands exposing (checkItemCmd, deleteItemCmd, fetchItemsCmd, submitItemCmd, gotoLocationCmd)
 import Models exposing (Model, Item)
 import Msgs exposing (Msg)
 import RemoteData
@@ -41,7 +41,29 @@ update msg model =
         Msgs.OnDeleteItem response ->
             case response of
                 Ok _ ->
-                    ( model, fetchItems )
+                    ( model, fetchItemsCmd )
+
+                Err error ->
+                    ( model, Cmd.none )
+
+        Msgs.UpdateNewContent content ->
+            let
+                updatedModel =
+                    { model | newContent = content }
+            in
+                ( updatedModel, Cmd.none )
+
+        Msgs.SubmitContent ->
+            ( model, submitItemCmd model.newContent )
+
+        Msgs.OnSubmitContent response ->
+            case response of
+                Ok item ->
+                    let
+                        updatedModel =
+                            { model | newContent = "" }
+                    in
+                        ( updatedModel, Cmd.batch [ fetchItemsCmd, gotoLocationCmd "/" ] )
 
                 Err error ->
                     ( model, Cmd.none )

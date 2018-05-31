@@ -1,24 +1,24 @@
 {
   "items": [
     {
-      "id": "1",
       "checked": false,
-      "content": "Lage todo-app"
+      "content": "Lage todo-app",
+      "id": "L3zii6m"
     },
     {
-      "id": "2",
       "checked": true,
-      "content": "Dra til Brilleland"
+      "content": "Dra til Brilleland",
+      "id": "FgYzQeM"
     },
     {
-      "id": "3",
       "checked": true,
-      "content": "Ringe Get"
+      "content": "Ringe Get igjen",
+      "id": "K8siM6y"
     },
     {
-      "id": "4",
       "checked": false,
-      "content": "Klippe meg"
+      "content": "Klippe meg",
+      "id": "FR5w4yv"
     }
   ]
 }

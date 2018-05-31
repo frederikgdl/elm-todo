@@ -1,4 +1,4 @@
-module Commands exposing (..)
+module Commands exposing (gotoLocationCmd, fetchItemsCmd, checkItemCmd, submitItemCmd, deleteItemCmd)
 
 import Http
 import Json.Decode as Decode
@@ -6,7 +6,24 @@ import Json.Decode.Pipeline exposing (decode, required)
 import Json.Encode as Encode
 import Models exposing (Item, ItemId)
 import Msgs exposing (Msg)
+import Navigation
 import RemoteData
+
+
+--
+-- Go to location
+--
+
+
+gotoLocationCmd : String -> Cmd Msg
+gotoLocationCmd location =
+    Navigation.newUrl location
+
+
+
+--
+-- Fetch items
+--
 
 
 fetchItemsUrl : String
@@ -14,8 +31,8 @@ fetchItemsUrl =
     "http://localhost:4000/items"
 
 
-fetchItems : Cmd Msg
-fetchItems =
+fetchItemsCmd : Cmd Msg
+fetchItemsCmd =
     Http.get fetchItemsUrl itemsDecoder
         |> RemoteData.sendRequest
         |> Cmd.map Msgs.OnFetchItems
@@ -37,6 +54,12 @@ itemDecoder =
 itemUrl : ItemId -> String
 itemUrl itemId =
     "http://localhost:4000/items/" ++ itemId
+
+
+
+--
+-- Check item
+--
 
 
 checkItemCmd : Item -> Cmd Msg
@@ -68,6 +91,53 @@ itemEncoder item =
             ]
     in
         Encode.object attributes
+
+
+
+--
+-- Submit item
+--
+
+
+submitItemCmd : String -> Cmd Msg
+submitItemCmd newContent =
+    submitItemRequest newContent
+        |> Http.send Msgs.OnSubmitContent
+
+
+postItemUrl : String
+postItemUrl =
+    "http://localhost:4000/items"
+
+
+submitItemRequest : String -> Http.Request Item
+submitItemRequest newContent =
+    Http.request
+        { method = "POST"
+        , headers = []
+        , url = postItemUrl
+        , body = newItemEncoder newContent |> Http.jsonBody
+        , expect = Http.expectJson itemDecoder
+        , timeout = Nothing
+        , withCredentials = False
+        }
+
+
+newItemEncoder : String -> Encode.Value
+newItemEncoder newContent =
+    let
+        attributes =
+            [ ( "checked", Encode.bool False )
+            , ( "content", Encode.string newContent )
+            ]
+    in
+        Encode.object attributes
+
+
+
+--
+-- Delete item
+--
 
 
 deleteItemCmd : ItemId -> Cmd Msg

@@ -13,8 +13,6 @@ type Msg
     | OnCheckItem (Result Http.Error Item)
     | DeleteItem ItemId
     | OnDeleteItem (Result Http.Error String)
-
-
-
--- | SubmitContent String
--- | OnSubmitContent (Result Http.Error Item)
+    | UpdateNewContent String
+    | SubmitContent
+    | OnSubmitContent (Result Http.Error Item)

@@ -1,19 +1,26 @@
-module Pages.List exposing (..)
+module Pages.List exposing (view)
 
-import Html exposing (Html, div, text, input, textarea, a, label, p)
-import Html.Attributes exposing (class, classList, type_, readonly, name, checked, id)
+import Html exposing (Html, div, text, input, a, p)
+import Html.Attributes exposing (class, classList, type_, checked, href)
 import Html.Events exposing (onCheck, onClick)
 import Models exposing (Item)
 import Msgs exposing (Msg(..))
+import Routing exposing (newItemPath)
 import RemoteData exposing (WebData)
 
 
 view : WebData (List Item) -> Html Msg
 view response =
-    div [ class "box" ]
+    div [ class "box is-shadowless" ]
         [ controls
         , maybeList response
         ]
+
+
+
+--
+-- Top controls
+--
 
 
 controls : Html Msg
@@ -28,7 +35,7 @@ controls =
 
 newButton : Html Msg
 newButton =
-    a [ class "button is-primary is-medium" ]
+    a [ class "button is-primary is-medium", href newItemPath ]
         [ text "+ Add todo" ]
 
 
@@ -48,6 +55,12 @@ filter =
                 [ text "All" ]
             ]
         ]
+
+
+
+--
+-- Item list
+--
 
 
 maybeList : WebData (List Item) -> Html Msg
@@ -94,7 +107,7 @@ checkbox item =
 
 content : Item -> Html Msg
 content item =
-    div [ classList [ ( "has-text-grey-light line-through", item.checked ) ] ]
+    div [ class "is-clipped", classList [ ( "has-text-grey-light line-through", item.checked ) ] ]
         [ text item.content ]
 
 
@@ -102,16 +115,8 @@ rowButtons : Item -> Html Msg
 rowButtons item =
     div [ class "field is-grouped" ]
         [ p [ class "control" ]
-            [ editButton item ]
-        , p [ class "control" ]
             [ deleteButton item ]
         ]
-
-
-editButton : Item -> Html Msg
-editButton item =
-    a [ class "button is-primary is-medium" ]
-        [ text "Edit" ]
 
 
 deleteButton : Item -> Html Msg

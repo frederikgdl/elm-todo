@@ -1,15 +1,15 @@
-module Routing exposing (..)
+module Routing exposing (parseLocation, newItemPath)
 
 import Navigation exposing (Location)
-import Models exposing (ItemId, Route(..))
-import UrlParser exposing (Parser, s, map, top, (</>), parseHash, oneOf, string)
+import Models exposing (Route(..))
+import UrlParser exposing (Parser, s, map, top, parseHash, oneOf)
 
 
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map ListRoute top
-        , map EditRoute (s "todo" </> string)
+        , map NewItemRoute (s "new")
         ]
 
 
@@ -23,11 +23,6 @@ parseLocation location =
             NotFoundRoute
 
 
-itemsPath : String
-itemsPath =
-    "#todo"
-
-
-itemPath : ItemId -> String
-itemPath id =
-    "#todo/" ++ id
+newItemPath : String
+newItemPath =
+    "#new"

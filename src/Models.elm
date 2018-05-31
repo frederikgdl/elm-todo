@@ -6,6 +6,7 @@ import RemoteData exposing (WebData)
 type alias Model =
     { items : WebData (List Item)
     , route : Route
+    , newContent : String
     }
 
 
@@ -13,6 +14,7 @@ initialModel : Route -> Model
 initialModel route =
     { items = RemoteData.Loading
     , route = route
+    , newContent = ""
     }
 
 
@@ -29,5 +31,5 @@ type alias Item =
 
 type Route
     = ListRoute
-    | EditRoute ItemId
+    | NewItemRoute
     | NotFoundRoute

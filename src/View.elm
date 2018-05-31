@@ -1,12 +1,11 @@
-module View exposing (..)
+module View exposing (view)
 
 import Html exposing (Html, div, text, nav)
 import Html.Attributes exposing (class)
-import Models exposing (Model, ItemId)
+import Models exposing (Model)
 import Msgs exposing (Msg)
-import Pages.Edit
 import Pages.List
-import RemoteData
+import Pages.NewItem
 
 
 view : Model -> Html Msg
@@ -34,38 +33,11 @@ page model =
         Models.ListRoute ->
             Pages.List.view model.items
 
-        Models.EditRoute itemId ->
-            itemEditPage model itemId
+        Models.NewItemRoute ->
+            Pages.NewItem.view
 
         Models.NotFoundRoute ->
             notFoundView
-
-
-itemEditPage : Model -> ItemId -> Html Msg
-itemEditPage model itemId =
-    case model.items of
-        RemoteData.NotAsked ->
-            text ""
-
-        RemoteData.Loading ->
-            text "Loading..."
-
-        RemoteData.Success items ->
-            let
-                maybeItem =
-                    items
-                        |> List.filter (\item -> item.id == itemId)
-                        |> List.head
-            in
-                case maybeItem of
-                    Just item ->
-                        Pages.Edit.view item
-
-                    Nothing ->
-                        notFoundView
-
-        RemoteData.Failure err ->
-            text (toString err)
 
 
 notFoundView : Html msg
