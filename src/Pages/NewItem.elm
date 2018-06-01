@@ -1,6 +1,6 @@
 module Pages.NewItem exposing (view)
 
-import Html exposing (Html, div, textarea, a, text)
+import Html exposing (Html, div, textarea, a, text, h1)
 import Html.Attributes exposing (class, autofocus)
 import Html.Events exposing (onInput, onClick)
 import Msgs exposing (Msg(..))
@@ -8,8 +8,10 @@ import Msgs exposing (Msg(..))
 
 view : Html Msg
 view =
-    div [ class "box" ]
-        [ div [ class "field" ]
+    div [ class "box is-shadowless" ]
+        [ h1 [ class "title"]
+            [ text "Add todo"]
+        , div [ class "field" ]
             [ inputArea ]
         , div [ class "field" ]
             [ saveButton ]

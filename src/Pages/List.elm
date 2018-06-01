@@ -12,7 +12,7 @@ import RemoteData exposing (WebData)
 view : WebData (List Item) -> Filter -> Html Msg
 view response itemFilter =
     div [ class "box is-shadowless" ]
-        [ controls
+        [ controls itemFilter
         , maybeList response itemFilter
         ]
 
@@ -23,13 +23,13 @@ view response itemFilter =
 --
 
 
-controls : Html Msg
-controls =
+controls : Filter -> Html Msg
+controls itemFilter =
     div [ class "level" ]
         [ div [ class "level-left" ]
             [ newButton ]
         , div [ class "level-right" ]
-            [ filter ]
+            [ filter itemFilter ]
         ]
 
 
@@ -39,19 +39,19 @@ newButton =
         [ text "+ Add todo" ]
 
 
-filter : Html Msg
-filter =
+filter : Filter -> Html Msg
+filter itemFilter =
     div [ class "field has-addons" ]
         [ p [ class "control" ]
-            [ a [ class "button", onClick (FilterItems NotChecked) ]
+            [ a [ class "button", classList [("is-info", itemFilter == NotChecked)], onClick (FilterItems NotChecked) ]
                 [ text "Not completed" ]
             ]
         , p [ class "control" ]
-            [ a [ class "button", onClick (FilterItems Checked) ]
+            [ a [ class "button", classList [("is-info", itemFilter == Checked)], onClick (FilterItems Checked) ]
                 [ text "Completed" ]
             ]
         , p [ class "control" ]
-            [ a [ class "button", onClick (FilterItems All) ]
+            [ a [ class "button", classList [("is-info", itemFilter == All)], onClick (FilterItems All) ]
                 [ text "All" ]
             ]
         ]
