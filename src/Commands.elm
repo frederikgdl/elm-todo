@@ -1,4 +1,11 @@
-module Commands exposing (gotoLocationCmd, fetchItemsCmd, checkItemCmd, submitItemCmd, deleteItemCmd)
+module Commands
+    exposing
+        ( gotoLocationCmd
+        , fetchItemsCmd
+        , checkItemCmd
+        , submitItemCmd
+        , deleteItemCmd
+        )
 
 import Http
 import Json.Decode as Decode

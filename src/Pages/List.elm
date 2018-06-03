@@ -35,7 +35,10 @@ controls itemFilter =
 
 newButton : Html Msg
 newButton =
-    a [ class "button is-primary is-medium", href newItemPath ]
+    a
+        [ class "button is-primary is-medium"
+        , href newItemPath
+        ]
         [ text "+ Add todo" ]
 
 
@@ -43,15 +46,27 @@ filter : Filter -> Html Msg
 filter itemFilter =
     div [ class "field has-addons" ]
         [ p [ class "control" ]
-            [ a [ class "button", classList [("is-info", itemFilter == NotChecked)], onClick (FilterItems NotChecked) ]
+            [ a
+                [ class "button"
+                , classList [ ( "is-info", itemFilter == NotChecked ) ]
+                , onClick (FilterItems NotChecked)
+                ]
                 [ text "Not completed" ]
             ]
         , p [ class "control" ]
-            [ a [ class "button", classList [("is-info", itemFilter == Checked)], onClick (FilterItems Checked) ]
+            [ a
+                [ class "button"
+                , classList [ ( "is-info", itemFilter == Checked ) ]
+                , onClick (FilterItems Checked)
+                ]
                 [ text "Completed" ]
             ]
         , p [ class "control" ]
-            [ a [ class "button", classList [("is-info", itemFilter == All)], onClick (FilterItems All) ]
+            [ a
+                [ class "button"
+                , classList [ ( "is-info", itemFilter == All ) ]
+                , onClick (FilterItems All)
+                ]
                 [ text "All" ]
             ]
         ]
@@ -122,7 +137,10 @@ checkbox item =
 
 content : Item -> Html Msg
 content item =
-    div [ class "is-clipped", classList [ ( "has-text-grey-light line-through", item.checked ) ] ]
+    div
+        [ class "is-clipped"
+        , classList [ ( "has-text-grey-light line-through", item.checked ) ]
+        ]
         [ text item.content ]
 
 
@@ -136,5 +154,8 @@ rowButtons item =
 
 deleteButton : Item -> Html Msg
 deleteButton item =
-    a [ class "button is-danger is-medium", onClick (DeleteItem item.id) ]
+    a
+        [ class "button is-danger is-medium"
+        , onClick (DeleteItem item.id)
+        ]
         [ text "Delete" ]

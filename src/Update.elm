@@ -1,6 +1,13 @@
 module Update exposing (update)
 
-import Commands exposing (checkItemCmd, deleteItemCmd, fetchItemsCmd, submitItemCmd, gotoLocationCmd)
+import Commands
+    exposing
+        ( checkItemCmd
+        , deleteItemCmd
+        , fetchItemsCmd
+        , submitItemCmd
+        , gotoLocationCmd
+        )
 import Models exposing (Model, Item, Filter(..))
 import Msgs exposing (Msg)
 import RemoteData

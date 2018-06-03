@@ -1,4 +1,12 @@
-module Models exposing (Model, initialModel, ItemId, Item, Route(..), Filter(..))
+module Models
+    exposing
+        ( Model
+        , initialModel
+        , ItemId
+        , Item
+        , Route(..)
+        , Filter(..)
+        )
 
 import RemoteData exposing (WebData)
 

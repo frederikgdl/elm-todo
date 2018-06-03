@@ -9,8 +9,8 @@ import Msgs exposing (Msg(..))
 view : Html Msg
 view =
     div [ class "box is-shadowless" ]
-        [ h1 [ class "title"]
-            [ text "Add todo"]
+        [ h1 [ class "title" ]
+            [ text "Add todo" ]
         , div [ class "field" ]
             [ inputArea ]
         , div [ class "field" ]
@@ -20,11 +20,18 @@ view =
 
 inputArea : Html Msg
 inputArea =
-    textarea [ class "textarea", onInput UpdateNewContent, autofocus True ]
+    textarea
+        [ class "textarea"
+        , onInput UpdateNewContent
+        , autofocus True
+        ]
         []
 
 
 saveButton : Html Msg
 saveButton =
-    a [ class "button is-primary is-medium", onClick SubmitContent ]
+    a
+        [ class "button is-primary is-medium"
+        , onClick SubmitContent
+        ]
         [ text "Save" ]
